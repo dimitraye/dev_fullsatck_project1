@@ -21,17 +21,23 @@ export class HomeComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.chartData = [
-      { name: "Zimbabwe", value: 12 },
-      { name: "Madacascar", value: 36 },
-      { name: "Taiwan", value: 167 },
-      { name: "Canada", value: 159 },
-      { name: "Antarctique", value: 78 }
-    ];
-
     this.olympics$ = this.olympicService.getOlympics();
-    this.numberOfCountries = 5;
-    this.numberOfJos = 5;
+
+    this.olympicService.getNumberOfCountries().subscribe((count) => {
+      this.numberOfCountries = count;
+    });
+
+
+    this.olympicService.getOlympics().subscribe((olympics) => {
+      if (olympics) {
+        this.numberOfJos = olympics.length; // Nombre de jeux olympiques
+      }
+    });
+
+    
+    this.olympicService.getHomeChartData().subscribe((data) => {
+      this.chartData = data;
+    });
   }
 
   onSelect(data: { name: string; value: number }): void {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-details',
@@ -11,31 +12,13 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 
 export class DetailsComponent implements OnInit {
   public olympics$: Observable<any> = of(null);
-  chartData = [
-    {
-      "name": "Karthikeyan",
-      "series": [
-        {
-          "name": "2016",
-          "value": "15000"
-        },
-        {
-          "name": "2017",
-          "value": "20000"
-        },
-        {
-          "name": "2018",
-          "value": "25000"
-        },
-        {
-          "name": "2019",
-          "value": "30000"
-        }
-      ],
-    }  
-  ];
-
-  public view: any = [700, 400];
+  public chartData: { name: string, series: { name: string, value: number }[] }[] = [];
+  public  numberOfEntries! : number;
+  public numberOfMedals! : number;
+  public numberOfAthletes! : number;
+  public countryName! : string;
+  public countryNames: string[] = [];
+  public view: [number, number] = [700, 400];
   public showXAxis = true;
   public showYAxis = true;
   public gradient = false;
@@ -48,20 +31,53 @@ export class DetailsComponent implements OnInit {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-  numberOfEntries! : number;
-  numberOfMedals! : number;
-  numberOfAthletes! : number;
-  countryName! : string;
 
-
-  constructor(private olympicService: OlympicService, private router: Router) {}
+  constructor(private olympicService: OlympicService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.olympicService.getCountryNames().subscribe((names) => {
+      this.countryNames = names;
+    });
+    //this.countryName = 'Japon';
+    /*this.route.paramMap.subscribe(params => {
+      // J'utilise la méthode get() pour récupérer la valeur du paramètre "id"
+      this.countryName = params.get('countryName') || '';
+      console.log('countryName récupéré de l\'URL : ', this.countryName);
+    });*/
+
+    this.route.paramMap.subscribe(params => {
+      // J'utilise la méthode get() pour récupérer la valeur du paramètre "id"
+      const newCountryName = params.get('countryName') || '';
+    
+      // Vérifie si la nouvelle valeur est dans la liste des countryNames ou est vide
+      if (this.countryNames.includes(newCountryName) || newCountryName === '') {
+        this.countryName = newCountryName;
+      } else {
+        this.countryName = '**';
+      }
+    
+      console.log('countryName récupéré de l\'URL : ', this.countryName);
+    });
+
     this.olympics$ = this.olympicService.getOlympics();
-    this.numberOfEntries = 5;
-    this.numberOfMedals = 5;
-    this.numberOfAthletes = 5;
-    this.countryName = 'Japon';
+    
+    this.olympicService.getNumberOfEntries(this.countryName).subscribe((count) => {
+      this.numberOfEntries = count;
+    });
+
+    this.olympicService.getNumberOfMedals(this.countryName).subscribe((count) => {
+      this.numberOfMedals = count;
+    });
+
+    this.olympicService.getNumberOfAthletes(this.countryName).subscribe((count) => {
+      this.numberOfAthletes = count;
+    });
+
+    this.olympicService.getCountryChartData(this.countryName).subscribe((countryChartData) => {
+      if (countryChartData) {
+        this.chartData = [countryChartData];
+      }
+    });
   }
 
   
