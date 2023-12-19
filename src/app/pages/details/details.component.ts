@@ -38,12 +38,6 @@ export class DetailsComponent implements OnInit {
     this.olympicService.getCountryNames().subscribe((names) => {
       this.countryNames = names;
     });
-    //this.countryName = 'Japon';
-    /*this.route.paramMap.subscribe(params => {
-      // J'utilise la méthode get() pour récupérer la valeur du paramètre "id"
-      this.countryName = params.get('countryName') || '';
-      console.log('countryName récupéré de l\'URL : ', this.countryName);
-    });*/
 
     this.route.paramMap.subscribe(params => {
       // J'utilise la méthode get() pour récupérer la valeur du paramètre "id"
