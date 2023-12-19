@@ -10,10 +10,9 @@ example of an olympic country:
 
 import { Participation } from './Participation';
 
-// Définition de l'interface OlympicCountry
 export interface Olympic {
   id: number;
   country: string;
-  participations: Participation[]; // Utilisation de l'interface Participation
+  participations: Participation[]; 
 }
 

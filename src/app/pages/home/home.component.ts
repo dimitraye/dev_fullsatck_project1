@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
 
     this.olympicService.getOlympics().subscribe((olympics) => {
       if (olympics) {
-        this.numberOfJos = olympics.length; // Nombre de jeux olympiques
+        this.numberOfJos = olympics.length; //Nombre de jeux olympiques
       }
     });
 
