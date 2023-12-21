@@ -1,40 +1,30 @@
 <div class="container mt-5">
-    <!--div contient titre de la page-->
     <div class="mb-3" >
-        <div class="border border-primary rounded col-8 m-auto text-center text-white rounded-green">
-            <h1>Medals per Country</h1>
-        </div>
+       <div class="border border-primary rounded col-8 m-auto text-center text-white rounded-green">
+          <h1>Medals per Country</h1>
+       </div>
     </div>
-
-    <!--div contient parametres du form-->
     <div class="row d-flex justify-content-center mb-3">
-
-
-          <div class=" rounded col-4 h-100 border border-success text-center">
-              <h5>Number of JOs</h5>
-              <p>{{numberOfJos}}</p>
-          </div>
-
-        
-          <div class="rounded col-4 h-100 offset-1 border border-success text-center">
-            <h5>Number of countries</h5>
-            <p>{{numberOfCountries}}</p>
-          </div>
-      </div>
-
-    
-    
-    <div id="div_graphic">
-        <div class="d-flex justify-content-center">
-            <ngx-charts-pie-chart 
-                [results]="chartData"
-                [legend]="false"
-                [legendTitle]="'Product chart Report'" 
-                [view]="[1000,300]"
-                [labels]="true" 
-                (select)="onSelect($event)">
-            </ngx-charts-pie-chart>
-        </div>
+       <div class=" rounded col-4 h-100 border border-success text-center">
+          <h5>Number of JOs</h5>
+          <p>{{numberOfJos}}</p>
+       </div>
+       <div class="rounded col-4 h-100 offset-1 border border-success text-center">
+          <h5>Number of countries</h5>
+          <p>{{numberOfCountries}}</p>
+       </div>
     </div>
-    
-</div>
+    <div>
+       <div class="d-flex justify-content-center">
+          <ngx-charts-pie-chart 
+          [results]="chartData"
+          [legend]="false"
+          [legendTitle]="'Product chart Report'" 
+          [view]="[1000,300]"
+          [labels]="true" 
+          (select)="onSelect($event)">
+          </ngx-charts-pie-chart>
+       </div>
+    </div>
+ </div>
+ 
