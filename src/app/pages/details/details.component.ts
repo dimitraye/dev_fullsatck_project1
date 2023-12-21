@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener  } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
@@ -30,6 +30,8 @@ export class DetailsComponent implements OnInit {
   public colorScheme : any = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
+  chartWidth: number = 500;
+  chartHeight: number = 300;
 
 
   constructor(private olympicService: OlympicService, private router: Router, private route: ActivatedRoute) {}
@@ -74,5 +76,11 @@ export class DetailsComponent implements OnInit {
     });
   }
 
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.chartWidth = window.innerWidth * 0.8; 
+    this.chartHeight = window.innerHeight * 0.6; 
+  }
   
 }

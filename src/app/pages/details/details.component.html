@@ -1,53 +1,44 @@
 <div class="container mt-5">
     <!--div contient titre de la page-->
     <div class="mb-3" >
-        <div class="border border-primary rounded col-8 m-auto text-center text-white rounded-green">
-            <h1>{{countryName}}</h1>
-        </div>
+       <div class="border border-primary rounded col-md-8 m-auto text-center text-white rounded-green">
+          <h1>{{countryName}}</h1>
+       </div>
     </div>
-
     <!--div contient parametres du form-->
     <div class="row d-flex justify-content-center mb-3">
-
-
-          <div class=" rounded col-3 h-100 border border-success text-center">
-              <h5>Number Of Entries</h5>
-              <p>{{numberOfEntries}}</p>
-          </div>
-
-          <div class=" rounded col-3 h-100 offset-1 border border-success text-center">
-            <h5>Number Of Medals</h5>
-            <p>{{numberOfMedals}}</p>
-        </div>
-
-          <div class="rounded col-3 h-100 offset-1 border border-success text-center">
-            <h5>Number Of Athletes</h5>
-            <p>{{numberOfAthletes}}</p>
-          </div>
-      </div>
-
-    
-    
-    <div id="div_graphic mb-5">
-        <div class="d-flex justify-content-center">
-            <ngx-charts-line-chart
-                [view]="view"
-                [scheme]="colorScheme"
-                [results]="chartData"
-                [gradient]="gradient"
-                [xAxis]="showXAxis"
-                [yAxis]="showYAxis"
-                [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel"
-                [xAxisLabel]="xAxisLabel">
-            </ngx-charts-line-chart>
-        </div> 
+       <div class="rounded col-md-3 mb-3 mb-md-0 border border-success text-center">
+          <h5>Number Of Entries</h5>
+          <p>{{numberOfEntries}}</p>
+       </div>
+       <div class="rounded col-md-3 offset-md-1 mb-3 mb-md-0 border border-success text-center">
+          <h5>Number Of Medals</h5>
+          <p>{{numberOfMedals}}</p>
+       </div>
+       <div class="rounded col-md-3 offset-md-1 border border-success text-center">
+          <h5>Number Of Athletes</h5>
+          <p>{{numberOfAthletes}}</p>
+       </div>
     </div>
-
-    <div class=" mt-5">
-        <button type="button" class="border border-primary rounded col-1 text-center text-white btn btn-dark">
-            <h5 routerLink="/">Back</h5>
-        </button>
+    <div class="mb-5">
+       <div class="col-12 col-md-6 col-lg-8 col-xl-6">
+          <ngx-charts-line-chart
+          [view]="[chartWidth, chartHeight]"
+          [scheme]="colorScheme"
+          [results]="chartData"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel">
+          </ngx-charts-line-chart>     
+       </div>
     </div>
-    
-</div>
+    <div class="mt-5 d-flex justify-content-center">
+       <button type="button" class="border border-primary rounded col-md-1 text-center text-white btn btn-dark">
+          <h5 routerLink="/">Back</h5>
+       </button>
+    </div>
+ </div>
+ 
