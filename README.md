@@ -27,3 +27,39 @@ Once mastered, you should continue by creating the typescript interfaces inside 
 You're now ready to implement the requested features.
 
 Good luck!
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Run the Application : 
+   Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## How does it work : 
+## Home : 
+    The User will comme on this page when the application starts (this is the route by default).
+    This page :
+        (1) Will present the context of the application.
+        (2) Will contain a graph (“bar” or “pie” type).
+
+    This graph will allow the visualization of the number of medals for each country, all
+    years combined. To be able to present this graph, displaying the home page
+    should automatically trigger the recovery of the necessary data.
+
+    By clicking on one of the countries, the user will be redirected to a “detail” page about
+    this country.
+
+
+## Details : 
+    When displayed, this page should automatically retrieve its own data
+    to the country selected by the user.
+
+    This page should then display the data relating to this country:
+        - number of participations in the Olympic Games;
+        - total number of medals obtained;
+        - total number of athletes presented at the Olympic Games.
+
+    Finally, a new graph (of “line” or “bar” type) should allow the user to
+    to view on this page the number of medals obtained by the country during
+    each edition of the Olympic Games.
+
+    A “return” button will return to the home page from this page.
