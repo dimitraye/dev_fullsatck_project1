@@ -1,6 +1,6 @@
-import { Component, OnInit, HostListener  } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy  } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./details.component.scss'],
 })
 
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
   public olympics$: Observable<any> = of(null);
   public chartData: { name: string, series: { name: string, value: number }[] }[] = [];
   public  numberOfEntries! : number;
@@ -32,51 +32,65 @@ export class DetailsComponent implements OnInit {
   };
   chartWidth: number = 500;
   chartHeight: number = 300;
+  private subscriptions: Subscription[] = [];
+
 
 
   constructor(private olympicService: OlympicService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.olympicService.getCountryNames().subscribe((names) => {
-      this.countryNames = names;
-    });
-
-    this.route.paramMap.subscribe(params => {
-      // J'utilise la méthode get() pour récupérer la valeur du paramètre "id"
-      const newCountryName = params.get('countryName') || '';
-    
-      // Vérifie si la nouvelle valeur est dans la liste des countryNames ou est vide
-      if (this.countryNames.includes(newCountryName) || newCountryName === '') {
-        this.countryName = newCountryName;
-      } else {
-        this.countryName = '**';
-      }
-    
-      console.log('countryName récupéré de l\'URL : ', this.countryName);
-    });
-
+    this.subscriptions.push(
+      this.olympicService.getCountryNames().subscribe((names) => {
+        this.countryNames = names;
+      })
+    );
+  
+    this.subscriptions.push(
+      this.route.paramMap.subscribe(params => {
+        const newCountryName = params.get('countryName') || '';
+        if (this.countryNames.includes(newCountryName) || newCountryName === '') {
+          this.countryName = newCountryName;
+        } else {
+          this.countryName = '**';
+        }
+        console.log('countryName récupéré de l\'URL : ', this.countryName);
+      })
+    );
+  
     this.olympics$ = this.olympicService.getOlympics();
-    
-    this.olympicService.getNumberOfEntries(this.countryName).subscribe((count) => {
-      this.numberOfEntries = count;
-    });
+  
+    this.subscriptions.push(
+      this.olympicService.getNumberOfEntries(this.countryName).subscribe((count) => {
+        this.numberOfEntries = count;
+      })
+    );
+  
+    this.subscriptions.push(
+      this.olympicService.getNumberOfMedals(this.countryName).subscribe((count) => {
+        this.numberOfMedals = count;
+      })
+    );
+  
+    this.subscriptions.push(
+      this.olympicService.getNumberOfAthletes(this.countryName).subscribe((count) => {
+        this.numberOfAthletes = count;
+      })
+    );
+  
+    this.subscriptions.push(
+      this.olympicService.getCountryChartData(this.countryName).subscribe((countryChartData) => {
+        if (countryChartData) {
+          this.chartData = [countryChartData];
+        }
+      })
+    );
+    }
 
-    this.olympicService.getNumberOfMedals(this.countryName).subscribe((count) => {
-      this.numberOfMedals = count;
-    });
-
-    this.olympicService.getNumberOfAthletes(this.countryName).subscribe((count) => {
-      this.numberOfAthletes = count;
-    });
-
-    this.olympicService.getCountryChartData(this.countryName).subscribe((countryChartData) => {
-      if (countryChartData) {
-        this.chartData = [countryChartData];
+    ngOnDestroy(): void {
+      this.subscriptions.forEach(subscription => subscription.unsubscribe());
       }
-    });
-  }
-
-
+    
+  
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     this.chartWidth = window.innerWidth * 0.8; 
