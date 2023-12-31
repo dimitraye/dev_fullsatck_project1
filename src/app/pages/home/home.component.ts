@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subscription, of } from 'rxjs';
+import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
 
@@ -11,7 +12,7 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 })
 
 export class HomeComponent implements OnInit, OnDestroy {
-  public olympics$: Observable<any> = of(null);
+  public olympics$: Observable<Olympic[] | null> = of(null);
   numberOfJos! : number;
   numberOfCountries! : number;
   chartData : { name: string, value: number }[] = [];

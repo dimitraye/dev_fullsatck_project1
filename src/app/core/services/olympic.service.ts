@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
+import { Participation } from '../models/Participation';
 
 @Injectable({
   providedIn: 'root',
@@ -77,7 +78,7 @@ export class OlympicService {
       
           if (country) {
             // Utilisez reduce pour additionner le nombre de médailles de chaque participation
-            return country.participations.reduce((totalMedals: number, participation: any) => {
+            return country.participations.reduce((totalMedals: number, participation: Participation) => {
               return totalMedals + participation.medalsCount;
             }, 0);
           }
@@ -96,7 +97,7 @@ export class OlympicService {
       
           if (country) {
             // Utilisez reduce pour additionner le nombre d'athlètes de chaque participation
-            return country.participations.reduce((totalAthletes: number, participation: any) => {
+            return country.participations.reduce((totalAthletes: number, participation: Participation) => {
               return totalAthletes + participation.athleteCount;
             }, 0);
           }
@@ -115,7 +116,7 @@ export class OlympicService {
         return olympics.map((country: Olympic) => ({
           name: country.country,
           value: country.participations.reduce(
-            (totalMedals: number, participation: any) => totalMedals + participation.medalsCount,
+            (totalMedals: number, participation: Participation) => totalMedals + participation.medalsCount,
             0
           ),
         }));
@@ -135,7 +136,7 @@ export class OlympicService {
           // Utilisez la méthode map pour créer un tableau de paires name/value
           return {
             name: countryName,
-            series: country.participations.map((participation: any) => ({
+            series: country.participations.map((participation: Participation) => ({
               name: participation.year.toString(),
               value: participation.medalsCount,
             })),
