@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Observable, Subscription, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { ActivatedRoute } from '@angular/router';
+import { Olympic } from 'src/app/core/models/Olympic';
 
 @Component({
   selector: 'app-details',
@@ -11,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class DetailsComponent implements OnInit, OnDestroy {
-  public olympics$: Observable<any> = of(null);
+  public olympics$: Observable<Olympic[] | null> = of(null);
   public chartData: { name: string, series: { name: string, value: number }[] }[] = [];
   public  numberOfEntries! : number;
   public numberOfMedals! : number;
@@ -26,10 +27,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public showXAxisLabel = true;
   public xAxisLabel: string="Dates";
   public showYAxisLabel = true;
-  public graphDataChart!: any[];
-  public colorScheme : any = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
   chartWidth: number = 500;
   chartHeight: number = 300;
   private subscriptions: Subscription[] = [];
@@ -51,9 +48,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
         if (this.countryNames.includes(newCountryName) || newCountryName === '') {
           this.countryName = newCountryName;
         } else {
-          this.countryName = '**';
+          this.router.navigate(['**']);
         }
-        console.log('countryName récupéré de l\'URL : ', this.countryName);
       })
     );
   
@@ -89,6 +85,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
       this.subscriptions.forEach(subscription => subscription.unsubscribe());
       }
+
+      
     
   
   @HostListener('window:resize', ['$event'])
